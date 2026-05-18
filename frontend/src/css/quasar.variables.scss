@@ -1,0 +1,19 @@
+// Quasar Sass (& SCSS) Variables
+// --------------------------------------------------
+
+$font-family: 'Inter', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Paleta principal
+$primary   : #05042b; // Slate 900 - Um azul profundo, quase chumbo. Transmite extrema solidez corporativa, elegância e modernidade.
+$secondary : #334155; // Slate 700 - Um tom de apoio elegante. Perfeito para o cabeçalho do seu cartão de login.
+$accent    : #2563EB; // Blue 600 - Um azul "elétrico" mas maduro. Guia os olhos diretamente para os botões de ação (Call to Action).
+
+// MODO ESCURO E FUNDOS
+$dark      : #1E293B; // Slate 800 - Um fundo escuro sofisticado (o preto puro cansa a vista).
+$dark-page : #0B0F19; // Fundo da aplicação no modo noturno.
+
+// CORES DE STATUS (Ajustadas para tons modernos, estilo "Tailwind CSS")
+$positive  : #10B981; // Verde esmeralda - Mais suave que o verde puro, excelente para mensagens de "Agendado com sucesso".
+$negative  : #EF4444; // Vermelho suave - Para botões de "Cancelar reserva".
+$info      : #0EA5E9; // Azul ciano.
+$warning   : #F59E0B; // Âmbar - Um tom de amarelo escurecido, muito profissional.
