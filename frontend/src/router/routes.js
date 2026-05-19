@@ -12,7 +12,8 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       { path: '', component: () => import('pages/DashboardPage.vue') },
-      { path: 'agendar', component: () => import('pages/SchedulePage.vue') }
+      { path: 'agendar', component: () => import('pages/SchedulePage.vue') },
+      { path: 'meus-agendamentos', component: () => import('pages/MyAppointmentsPage.vue') }
     ]
   },
 

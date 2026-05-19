@@ -57,6 +57,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter, useRoute } from 'vue-router';
+// Importa a função de validação
+import { validarAgendamento } from '../utils/validacoes';
 
 const salas = ref([]);
 const agendamentos = ref([]);
@@ -71,7 +73,6 @@ const route = useRoute();
 
 onMounted(async () => {
   try {
-    // Dispara as duas requisições ao mesmo tempo para ganhar velocidade
     const [resSalas, resAgendamentos] = await Promise.all([
       axios.get('http://localhost:3000/api/salas'),
       axios.get('http://localhost:3000/api/agendamentos')
@@ -83,7 +84,6 @@ onMounted(async () => {
     if (route.query.sala) {
       selectedSala.value = Number(route.query.sala);
     }
-
   } catch (error) {
     console.error('Erro ao buscar os dados iniciais do formulário:', error);
   }
@@ -102,50 +102,21 @@ const agendar = async () => {
     return;
   }
 
-  // ------------------ VERIFICAÇÃO DOS DADOS ANTES DE ENVIAR A REQUISIÇÃO ------------------ //
-
-  // Verifica se a sala selecionada é válida
-  const selectedSalaObj = salas.value.find(sala => sala.id === selectedSala.value);
-  if (!selectedSalaObj) {
-    alert('Sala selecionada inválida.');
-    return;
-  }
-
-  // Verifica se a data selecionada é valida
-  const dataHoje = new Date();
-  if (new Date(data.value) < dataHoje) {
-    alert('A data selecionada não pode ser no passado.');
-    return;
-  }
-
-  // Verifica se o horário de início é antes do horário de fim
-  if (horarioInicio.value >= horarioFim.value) {
-    alert('O horário de início deve ser antes do horário de fim.');
-    return;
-  }
-
-  // Verifica se o horário selecionado não conflita com outros agendamentos da mesma sala
-  const conflitos = agendamentos.value.filter(agendamento => {
-    return agendamento.sala_id === selectedSala.value &&
-      agendamento.data === data.value &&
-      ((horarioInicio.value >= agendamento.horario_inicio && horarioInicio.value < agendamento.horario_fim) ||
-       (horarioFim.value > agendamento.horario_inicio && horarioFim.value <= agendamento.horario_fim) ||
-       (horarioInicio.value <= agendamento.horario_inicio && horarioFim.value >= agendamento.horario_fim));
+  // --- VALIDAÇÃO DOS DADOS ---
+  const verificacao = validarAgendamento({
+    salaId: selectedSala.value,
+    data: data.value,
+    horarioInicio: horarioInicio.value,
+    horarioFim: horarioFim.value,
+    salas: salas.value,
+    agendamentos: agendamentos.value
   });
 
-  if (conflitos.length > 0) {
-    alert('O horário selecionado conflita com outros agendamentos da mesma sala.');
+  if (!verificacao.valido) {
+    alert(verificacao.erro);
     return;
   }
-
-  // Verifica se o horário selecionado está dentro do horário de funcionamento da sala
-  const horarioFuncionamento = [selectedSalaObj.horario_abertura, selectedSalaObj.horario_fechamento];
-  if (horarioInicio.value < horarioFuncionamento[0] || horarioFim.value > horarioFuncionamento[1]) {
-    alert(`O horário selecionado deve estar dentro do horário de funcionamento da sala (${selectedSalaObj.horario_abertura} - ${selectedSalaObj.horario_fechamento}).`);
-    return;
-  }
-
-  // ---------------------------------------------------------------------------------------- //
+  // -----------------------------
 
   try {
     await axios.post('http://localhost:3000/api/agendamentos', {

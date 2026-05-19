@@ -6,15 +6,12 @@ const loginController = (db) => async (req, res) => {
     }
 
     try {
-        // Verifica se o usuário já existe no banco
         let user = await db.get('SELECT * FROM usuarios WHERE nome = ?', [username]);
 
         if (user) {
-            // Se existe, atualiza o último login (renova os 30 dias de atividade)
             await db.run('UPDATE usuarios SET ultimo_login = CURRENT_TIMESTAMP WHERE id = ?', [user.id]);
             console.log(`[LOGIN] Usuário existente "${username}" fez login. Último login atualizado.`);
         } else {
-            // Se não existe, cria um novo usuário
             const result = await db.run('INSERT INTO usuarios (nome) VALUES (?)', [username]);
             user = { id: result.lastID, nome: username };
             console.log(`[CADASTRO] Novo usuário "${username}" criado e fez login.`);

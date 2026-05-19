@@ -16,9 +16,9 @@ let db;
 
 initDB().then(db => {
 
-    app.use('/api', authRoutes(db));
-    app.use('/api', salaRoutes(db));
-    app.use('/api', agendamentoRoutes(db));
+    app.use('/api/login', authRoutes(db));
+    app.use('/api/salas', salaRoutes(db));
+    app.use('/api/agendamentos', agendamentoRoutes(db));
 
     app.listen(PORT, () => {
         console.log(`Servidor rodando na porta http://localhost:${PORT}`);

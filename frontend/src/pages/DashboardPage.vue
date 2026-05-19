@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex items-center bg-grey-2 column q-pt-xl">
 
-    <h3 class="text-h4 q-mb-xl text-primary text-bold">Bem-vindo(a), {{ userName }}!</h3>
+    <h3 class="text-h4 q-mb-xl text-primary text-bold">Bem-vindo(a), {{ userName }}! Pronto para a sua próxima reunião?</h3>
 
     <div class="row justify-center q-gutter-lg q-px-md" style="width: 100%; max-width: 1300px;">
 

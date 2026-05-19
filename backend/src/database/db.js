@@ -8,7 +8,7 @@ async function initDB() {
     });
 
     // Cria a tabela de Usuários
-    // O UNIQUE garante que não teremos dois usuários com o mesmo nome exato
+    // O UNIQUE garante que não terão dois usuários com o mesmo nome exato
     await db.exec(`
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,7 +43,7 @@ async function initDB() {
     `);
 
     // Limpeza de usuários inativos há mais de 30 dias
-    // Isso vai rodar toda vez que o servidor Node for iniciado
+    // Roda toda vez que o servidor iniciar
     const result = await db.run(`
         DELETE FROM usuarios 
         WHERE ultimo_login <= datetime('now', '-30 days') 
