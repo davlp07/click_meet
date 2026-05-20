@@ -98,7 +98,10 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar';
 import axios from 'axios'
+
+const $q = useQuasar()
 
 const router = useRouter()
 const loading = ref(false)
@@ -109,7 +112,11 @@ const form = reactive({
 
 const handleLogin = async () => {
   if (!form.username) {
-    alert('Por favor, insira o usuário.')
+    $q.notify({
+      message: 'Por favor, insira o usuário.',
+      color: 'negative',
+      icon: 'error'
+    });
     return
   }
 
@@ -126,7 +133,11 @@ const handleLogin = async () => {
 
   } catch (error) {
     console.error('Erro ao fazer login:', error)
-    alert('Erro ao fazer login. Por favor, tente novamente.')
+    $q.notify({
+      message: 'Erro ao fazer login. Por favor, tente novamente.',
+      color: 'negative',
+      icon: 'error'
+    })
   } finally {
     loading.value = false
   }

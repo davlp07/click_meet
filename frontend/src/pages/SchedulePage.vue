@@ -57,8 +57,10 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter, useRoute } from 'vue-router';
-// Importa a função de validação
 import { validarAgendamento } from '../utils/validacoes';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
 
 const salas = ref([]);
 const agendamentos = ref([]);
@@ -91,13 +93,21 @@ onMounted(async () => {
 
 const agendar = async () => {
   if (!selectedSala.value || !data.value || !horarioInicio.value || !horarioFim.value) {
-    alert('Por favor, preencha todos os campos.');
+    $q.notify({
+      message: 'Por favor, preencha todos os campos.',
+      color: 'negative',
+      icon: 'error'
+    });
     return;
   }
 
   const userString = localStorage.getItem('user');
   if (!userString) {
-    alert('Sessão expirada. Faça login novamente.');
+    $q.notify({
+      message: 'Sessão expirada. Faça login novamente.',
+      color: 'negative',
+      icon: 'error'
+    });
     router.push('/');
     return;
   }
@@ -113,7 +123,11 @@ const agendar = async () => {
   });
 
   if (!verificacao.valido) {
-    alert(verificacao.erro);
+    $q.notify({
+      message: verificacao.erro,
+      color: 'negative',
+      icon: 'error'
+    });
     return;
   }
   // -----------------------------
@@ -126,11 +140,19 @@ const agendar = async () => {
       horario_inicio: horarioInicio.value,
       horario_fim: horarioFim.value
     });
-    alert('Agendamento realizado com sucesso!');
+    $q.notify({
+      message: 'Agendamento realizado com sucesso!',
+      color: 'positive',
+      icon: 'check'
+    });
     router.push('/dashboard');
   } catch (error) {
     console.error('Erro ao agendar:', error);
-    alert('Ocorreu um erro ao tentar agendar. Por favor, tente novamente.');
+    $q.notify({
+      message: 'Ocorreu um erro ao tentar agendar. Por favor, tente novamente.',
+      color: 'negative',
+      icon: 'error'
+    });
   }
 };
 </script>
