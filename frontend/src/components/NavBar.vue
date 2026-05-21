@@ -11,14 +11,31 @@
 </template>
 
 <script setup>
+  import { useQuasar } from 'quasar';
   import { useRouter } from 'vue-router';
+
+  const $q = useQuasar();
 
       const router = useRouter();
 
       const handleLogout = () => {
-        confirm('Deseja realmente sair?') &&
-        localStorage.removeItem('user');
-        router.push('/');
+        $q.dialog({
+          title: 'Sair do Sistema',
+          message: 'Tem certeza que deseja encerrar a sua sessão?',
+          persistent: true,
+          ok: {
+            label: 'Sair',
+            color: 'negative'
+          },
+          cancel: {
+            label: 'Voltar',
+            color: 'primary',
+            flat: true
+          }
+        }).onOk(() => {
+          localStorage.removeItem('user');
+          router.push('/');
+        });
       }
 
 </script>
