@@ -41,37 +41,109 @@ Siga o passo a passo abaixo para clonar e executar o ambiente completo de desenv
 
 ### Pré-requisitos
 Certifique-se de ter instalado em sua máquina:
-- [Node.js](https://nodejs.org/) (Versão 18 ou superior recomendada)
+- [Node.js](https://nodejs.org/) (Versão 22.22 ou superior obrigatória)
+- Git
 - NPM (Instalado automaticamente junto com o Node)
 
 ---
 
-### Passo 1: Configuração do Backend (Servidor API)
+### Passo 1: Clonar o Repositório
+
+Abra o seu terminal e baixe o código-fonte executando:
+   ```bash
+   git clone https://github.com/davlp07/click_meet.git
+   cd click_meet
+   ```
+
+### Passo 2: Configuração do Backend (Servidor API)
 
 1. Navegue até o diretório do backend da aplicação:
    ```bash
    cd backend
+   ```
 
 2. Instale todas as dependências necessárias listadas no package.json:
    ```bash
    npm install
+   ```
 
 3. Inicie o servidor backend e o banco de dados:
    ```bash
    node src/server.js
+   ```
 
 O servidor backend será iniciado por padrão na porta 3000 (http://localhost:3000).
 
-### Passo 2: Configuração do Frontend (Interface Quasar)
+### Passo 3: Configuração do Frontend (Interface Quasar)
 
 1. Abra uma nova aba no seu terminal e navegue para o diretório do frontend:
    ```bash
    cd frontend
+   ```
 
 2. Instale as dependências da interface gráfica:
    ```bash
    npm install
+   ```
 
 3. Execute o servidor de desenvolvimento local do Quasar/Vite:
    ```bash
+   npm run dev
+   # OU, caso tenha o Quasar CLI instalado globalmente:
    quasar dev
+   ```
+
+## 📁 Estrutura do Código
+
+A organização do código-fonte segue uma arquitetura limpa, com isolamento claro de escopo e responsabilidades entre cliente e servidor:
+
+```text
+click_meet/
+├── backend/                         # Servidor da aplicação (Node.js + Express)
+│   ├── src/
+│   │   ├── controllers/             # Regras de negócio e comunicação com o banco
+│   │   │   ├── agendamentoController.js
+│   │   │   ├── authController.js
+│   │   │   └── salasController.js
+│   │   ├── database/                # Configuração e conexão com o banco SQLite
+│   │   │   └── db.js
+│   │   ├── routes/                  # Definição dos endpoints da API REST
+│   │   │   ├── agendamentoRts.js
+│   │   │   ├── authRts.js
+│   │   │   └── salaRts.js
+│   │   └── server.js                # Arquivo de entrada e inicialização do Express
+│   ├── database.sqlite              # Banco de dados relacional embarcado
+│   └── package.json                 # Dependências e scripts do backend
+│
+├── frontend/                        # Interface de usuário (Vue 3 + Quasar)
+│   ├── public/                      # Assets estáticos (ícones e favicon)
+│   ├── src/
+│   │   ├── components/              # Componentes de UI modulares e reaproveitáveis
+│   │   │   ├── CalendarPanel.vue    # Calendário interativo de seleção (Master)
+│   │   │   ├── ModalCancelar.vue    # Modal isolado para exclusão de agendamentos
+│   │   │   ├── ModalEditar.vue      # Formulário de edição de reservas encapsulado
+│   │   │   └── NavBar.vue           # Barra de navegação global
+│   │   ├── css/                     # Estilização e variáveis do Quasar (SCSS)
+│   │   ├── layouts/                 # Estruturas base de páginas (MainLayout)
+│   │   ├── pages/                   # Telas principais da aplicação (Views)
+│   │   │   ├── DashboardPage.vue    # Página inicial com um dashboard das salas de reunião
+│   │   │   ├── LoginPage.vue        # Página de login
+│   │   │   ├── MyAppointmentsPage.vue # Painel de gestão da agenda com calendário
+│   │   │   └── SchedulePage.vue       # Formulário de agendamento de novas salas
+│   │   ├── router/                  # Gerenciamento de rotas e proteção de rotas
+│   │   ├── stores/                  # Gerenciamento de estado global (Pinia)
+│   │   ├── utils/                   # Lógicas de negócio compartilhadas
+│   │   │   └── validacoes.js        # Motor centralizado de checagem de horários
+│   │   └── App.vue                  # Componente raiz
+│   ├── quasar.config.js             # Configurações do ecossistema Quasar/Vite
+│   └── package.json                 # Dependências e scripts do frontend
+│
+└── README.md                        # Documentação principal do projeto
+   
+```
+
+### 🧑‍💻 Autor
+
+Desenvolvido por **Davi Lopes** — Desenvolvedor de Software Frontend/Backend
+- LinkedIn: [https://www.linkedin.com/in/davi-lopes-b452822a6/](https://www.linkedin.com/in/davi-lopes-b452822a6/)
+- GitHub: [https://github.com/davlp07](https://github.com/davlp07)
